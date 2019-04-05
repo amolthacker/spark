@@ -25,7 +25,7 @@
     <version>18</version>
   </parent>
   <groupId>org.apache.spark</groupId>
-  <artifactId>spark-parent_2.12</artifactId>
+  <artifactId>spark-parent_2.11</artifactId>
   <version>3.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Spark Project Parent POM</name>
@@ -96,16 +96,18 @@
     <module>streaming</module>
     <module>sql/catalyst</module>
     <module>sql/core</module>
-    <module>sql/hive</module>
+    <!--<module>sql/hive</module>-->
     <module>assembly</module>
     <module>examples</module>
     <module>repl</module>
     <module>launcher</module>
+    <!--
     <module>external/kafka-0-10-token-provider</module>
     <module>external/kafka-0-10</module>
     <module>external/kafka-0-10-assembly</module>
     <module>external/kafka-0-10-sql</module>
     <module>external/avro</module>
+    -->
     <!-- See additional modules enabled by profiles below -->
   </modules>
 
@@ -131,7 +133,7 @@
     <!-- Version used for internal directory structure -->
     <hive.version.short>1.2.1</hive.version.short>
     <!-- note that this should be compatible with Kafka brokers version 0.10 and up -->
-    <kafka.version>2.1.1</kafka.version>
+    <kafka.version>2.2.0</kafka.version>
     <derby.version>10.12.1.1</derby.version>
     <parquet.version>1.10.1</parquet.version>
     <orc.version>1.5.5</orc.version>
@@ -159,8 +161,8 @@
     <commons.math3.version>3.4.1</commons.math3.version>
     <!-- managed up from 3.2.1 for SPARK-11652 -->
     <commons.collections.version>3.2.2</commons.collections.version>
-    <scala.version>2.12.8</scala.version>
-    <scala.binary.version>2.12</scala.binary.version>
+    <scala.version>2.11.12</scala.version>
+    <scala.binary.version>2.11</scala.binary.version>
     <scalafmt.parameters>--diff --test</scalafmt.parameters>
     <!-- for now, not running scalafmt as part of default verify pipeline -->
     <scalafmt.skip>true</scalafmt.skip>
@@ -774,7 +776,6 @@
         <artifactId>scala-parser-combinators_${scala.binary.version}</artifactId>
         <version>1.1.0</version>
       </dependency>
-      <!-- SPARK-16770 affecting Scala 2.11.x -->
       <dependency>
         <groupId>jline</groupId>
         <artifactId>jline</artifactId>
@@ -1973,7 +1974,7 @@
                     <excludes>
                       <exclude>org.jboss.netty</exclude>
                       <exclude>org.codehaus.groovy</exclude>
-                      <exclude>*:*_2.11</exclude>
+                      <exclude>*:*_2.12</exclude>
                       <exclude>*:*_2.10</exclude>
                     </excludes>
                     <searchTransitive>true</searchTransitive>
@@ -2575,7 +2576,7 @@
       </plugin>
       <plugin>
         <groupId>org.antipathy</groupId>
-        <artifactId>mvn-scalafmt_2.12</artifactId>
+        <artifactId>mvn-scalafmt_2.11</artifactId>
         <version>0.9_1.5.1</version>
         <configuration>
           <parameters>${scalafmt.parameters}</parameters> <!-- (Optional) Additional command line arguments -->
@@ -2717,41 +2718,6 @@
     <!-- Exists for backwards compatibility; profile doesn't do anything -->
     <profile>
       <id>scala-2.12</id>
-    </profile>
-
-    <profile>
-      <id>scala-2.11</id>
-      <properties>
-        <scala.version>2.11.12</scala.version>
-        <scala.binary.version>2.11</scala.binary.version>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>enforce-versions</id>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-                <configuration>
-                  <rules>
-                    <bannedDependencies>
-                      <excludes combine.self="override">
-                        <exclude>org.jboss.netty</exclude>
-                        <exclude>org.codehaus.groovy</exclude>
-                        <exclude>*:*_2.10</exclude>
-                      </excludes>
-                    </bannedDependencies>
-                  </rules>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <!--

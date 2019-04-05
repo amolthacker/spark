@@ -31,6 +31,7 @@ RUN set -ex && \
     ln -s /lib /lib64 && \
     apk add --no-cache bash tini libc6-compat linux-pam krb5 krb5-libs nss && \
     mkdir -p /opt/spark && \
+    mkdir -p /opt/spark/conf && \
     mkdir -p /opt/spark/examples && \
     mkdir -p /opt/spark/work-dir && \
     touch /opt/spark/RELEASE && \

@@ -58,7 +58,7 @@ Collate:
     'types.R'
     'utils.R'
     'window.R'
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8
 NeedsCompilation: no
